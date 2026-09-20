@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deceptive Warning — Classroom Demonstration</title>
+<style>
+  :root{ --ink:#e8ecf5; --muted:#94a2c0; --line:#2a3550; }
+  *{box-sizing:border-box}
+  body{margin:0;background:#0f1420;color:var(--ink);
+       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+ 
+  .trainbar{background:repeating-linear-gradient(45deg,#ffb020,#ffb020 14px,#1a1400 14px,#1a1400 28px);padding:3px}
+  .trainbar__inner{background:#1a1400;color:#ffd98a;text-align:center;padding:9px 16px;font-weight:700;
+       letter-spacing:.04em;font-size:13px}
+ 
+  .wrap{max-width:760px;margin:0 auto;padding:34px 18px 70px}
+  h1{font-size:27px;margin:20px 0 8px;letter-spacing:-.01em}
+  p.sub{color:var(--muted);margin:0 0 24px}
+  .card{background:#1a2133;border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:18px}
+  .card h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 14px}
+  ol,ul{margin:0;padding-left:22px} li{margin:7px 0}
+  .go{display:inline-block;margin-top:8px;padding:14px 26px;border:0;border-radius:10px;background:#ff6b6b;
+      color:#1a0808;font-weight:800;font-size:16px;cursor:pointer;font-family:inherit}
+  .opt{margin-top:16px;color:var(--muted);font-size:14px;display:flex;align-items:center;gap:9px}
+  kbd{background:#0c1220;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;
+      font-family:ui-monospace,monospace;font-size:13px;color:#cdd8ef}
+ 
+  /* ---------- the fake warning ---------- */
+  #scare{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;
+         background:#b3131c;color:#fff;font-family:"Segoe UI",system-ui,sans-serif;overflow:hidden}
+  #scare.on{display:flex}
+  #scare::before{content:"";position:absolute;inset:0;background:#7d0d14;opacity:0;animation:flash 1.15s infinite}
+  @keyframes flash{0%,100%{opacity:0}50%{opacity:.5}}
+  .sbar{position:relative;z-index:3;background:repeating-linear-gradient(45deg,#ffb020,#ffb020 14px,#1a1400 14px,#1a1400 28px);padding:3px}
+  .sbar__in{background:#1a1400;color:#ffd98a;text-align:center;padding:8px;font-weight:800;font-size:13px;letter-spacing:.05em}
+  .sbody{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;
+         justify-content:center;text-align:center;padding:26px;gap:14px}
+  .sicon{font-size:74px;line-height:1;animation:shake .45s infinite}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .stitle{font-size:clamp(26px,5vw,52px);font-weight:900;letter-spacing:-.02em;margin:0;text-shadow:0 3px 14px rgba(0,0,0,.45)}
+  .scode{font-family:ui-monospace,monospace;font-size:clamp(14px,2vw,19px);background:rgba(0,0,0,.3);
+         padding:7px 18px;border-radius:7px;letter-spacing:.09em}
+  .sline{font-size:clamp(15px,2.2vw,21px);max-width:62ch;margin:0;opacity:.97}
+  .scount{font-family:ui-monospace,monospace;font-size:clamp(30px,6vw,60px);font-weight:800;
+          background:rgba(0,0,0,.32);padding:8px 30px;border-radius:11px;letter-spacing:.05em}
+  .sphone{font-size:clamp(20px,4vw,40px);font-weight:900;background:#fff;color:#b3131c;
+          padding:12px 34px;border-radius:11px;letter-spacing:.02em}
+  .sfoot{font-size:13px;opacity:.85;max-width:70ch}
+  .sbtns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .sbtn{padding:11px 22px;border:2px solid #fff;border-radius:8px;background:transparent;color:#fff;
+        font-weight:700;font-size:15px;cursor:pointer;font-family:inherit}
+  .sbtn--solid{background:#fff;color:#b3131c;border-color:#fff}
+  .exit{position:absolute;bottom:14px;left:0;right:0;z-index:3;text-align:center;font-size:13px;opacity:.8}
+ 
+  /* ---------- debrief ---------- */
+  #debrief{display:none;border-color:#3ddc97}
+  #debrief.on{display:block}
+  #debrief h2{color:#3ddc97}
+  .tally{font-family:ui-monospace,monospace;color:#ffb020}
+</style>
+</head>
+<body>
+ 
+<div class="trainbar"><div class="trainbar__inner">
+  ⚠ TRAINING DEMONSTRATION — the warning this page shows is fake, and so is every name and number in it.
+  No software is scanning anything.
+</div></div>
+ 
+<div class="wrap">
+  <h1>Deceptive warning (“scareware”) demonstration</h1>
+  <p class="sub">Press the button to display a full-screen fake warning. Ask the class to practice closing
+  it the right way instead of clicking anything inside it.</p>
+ 
+  <div class="card">
+    <h2>Before you press it</h2>
+    <ol>
+      <li>Tell the room this is a demonstration — the yellow bar stays visible the whole time, on purpose.</li>
+      <li>Warn that there is an alarm sound if you leave it switched on below.</li>
+      <li>The correct exit is <kbd>Esc</kbd> here, and <kbd>Alt</kbd>+<kbd>F4</kbd> for a real browser window.
+          If a real page blocks both, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Esc</kbd> opens Task Manager →
+          select the browser → End task.</li>
+      <li>Nothing on the warning screen is clickable in a way that does anything. The buttons are there to be
+          <em>not</em> clicked.</li>
+    </ol>
+    <button class="go" id="launch">Show the fake warning</button>
+    <label class="opt"><input type="checkbox" id="snd" checked> Play the alarm tone</label>
+  </div>
+ 
+  <div class="card" id="debrief">
+    <h2>Debrief — what pressured you</h2>
+    <p>The screen was up for <span class="tally" id="dur">0</span> seconds. Walk the class back through the
+    tactics they just felt:</p>
+    <ul>
+      <li><b>It filled the screen</b> so the real browser — tabs, address bar, close button — disappeared.</li>
+      <li><b>It counted down.</b> A deadline exists to stop you asking a coworker.</li>
+      <li><b>It gave you one action:</b> call a number. Real security software never asks you to phone anyone.</li>
+      <li><b>It borrowed authority</b> with an official-sounding name, an error code, and a lock icon.</li>
+      <li><b>It made noise,</b> which is embarrassing in a room with a patient in the chair — and embarrassment
+          makes people act fast and quietly instead of asking for help.</li>
+    </ul>
+    <p style="margin-bottom:0"><b>What none of it could do:</b> stop <kbd>Alt</kbd>+<kbd>F4</kbd>, or stop you
+    walking down the hall to tell your office manager.</p>
+  </div>
+</div>
+ 
+<!-- ============ the fake warning overlay ============ -->
+<div id="scare" role="dialog" aria-label="Simulated deceptive warning, training demonstration">
+  <div class="sbar"><div class="sbar__in">
+    ⚠ TRAINING DEMONSTRATION — FAKE WARNING — PRESS ESC TO CLOSE ⚠
+  </div></div>
+ 
+  <div class="sbody">
+    <div class="sicon">⚠️</div>
+    <p class="stitle">SYSTEM SECURITY ALERT</p>
+    <div class="scode">ERROR CODE: 0xDEM0-TRAINING-0000</div>
+    <p class="sline"><b>PixelGuard Total Defender</b> has detected unauthorized access to files on this
+    workstation. Your connection has been suspended to prevent data loss.</p>
+    <p class="sline" style="font-weight:700">Do not shut down this computer. Contact support immediately
+    to restore access.</p>
+    <div class="scount" id="cd">04:59</div>
+    <div class="sphone">CALL NOW: 1-800-555-0142</div>
+    <div class="sbtns">
+      <button class="sbtn sbtn--solid" id="fake1">Restore Access Now</button>
+      <button class="sbtn" id="fake2">Scan My Computer</button>
+    </div>
+    <p class="sfoot">“PixelGuard Total Defender” is an invented product. 1-800-555-0142 is a reserved
+    fictional number that reaches no one. Nothing has been scanned, detected, or suspended.</p>
+  </div>
+ 
+  <div class="exit">Press <b>Esc</b> to close this demonstration</div>
+</div>
+ 
+<script>
+(function(){
+  var scare = document.getElementById('scare');
+  var cd    = document.getElementById('cd');
+  var timer = null, tick = null, ctx = null, started = 0;
+ 
+  function beep(){
+    try{
+      if(!ctx){ ctx = new (window.AudioContext||window.webkitAudioContext)(); }
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type='square'; o.frequency.value = 880;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.14, ctx.currentTime+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.34);
+      o.start(); o.stop(ctx.currentTime+0.36);
+    }catch(e){ /* audio unavailable — demo still works */ }
+  }
+ 
+  function open(){
+    started = Date.now();
+    scare.classList.add('on');
+    document.body.style.overflow='hidden';
+    if(document.documentElement.requestFullscreen){
+      document.documentElement.requestFullscreen().catch(function(){});
+    }
+    var left = 299;
+    cd.textContent = '04:59';
+    tick = setInterval(function(){
+      left--;
+      if(left < 0){ left = 299; }
+      var m = Math.floor(left/60), s = left%60;
+      cd.textContent = m + ':' + String(s).padStart(2,'0');
+    },1000);
+    if(document.getElementById('snd').checked){
+      beep();
+      timer = setInterval(beep, 1500);
+    }
+  }
+ 
+  function close(){
+    scare.classList.remove('on');
+    document.body.style.overflow='';
+    clearInterval(timer); clearInterval(tick); timer = tick = null;
+    if(document.fullscreenElement && document.exitFullscreen){
+      document.exitFullscreen().catch(function(){});
+    }
+    if(started){
+      document.getElementById('dur').textContent = Math.round((Date.now()-started)/1000);
+      document.getElementById('debrief').classList.add('on');
+      started = 0;
+      document.getElementById('debrief').scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+ 
+  document.getElementById('launch').addEventListener('click', open);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && scare.classList.contains('on')){ close(); }
+  });
+ 
+  // The two buttons inside the warning do nothing but prove the point.
+  ['fake1','fake2'].forEach(function(id){
+    document.getElementById(id).addEventListener('click', function(){
+      this.textContent = 'This is the button you should not press';
+      this.disabled = true;
+      this.style.opacity = '.65';
+    });
+  });
+})();
+</script>
+</body>
+</html>
